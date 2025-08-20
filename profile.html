@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Profile</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Welcome, <span id="userEmail"></span></h1>
+  <button onclick="logout()">Logout</button>
+
+  <script type="module">
+    import { supabase } from './app.js';
+
+    const user = await supabase.auth.getUser();
+    if (user.data.user) {
+      document.getElementById('userEmail').textContent = user.data.user.email;
+    } else {
+      window.location.href = 'index.html';
+    }
+
+    window.logout = async () => {
+      await supabase.auth.signOut();
+      window.location.href = 'index.html';
+    };
+  </script>
+</body>
+</html>
